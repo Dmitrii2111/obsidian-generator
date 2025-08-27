@@ -1,0 +1,13 @@
+
+### **9. Создание requirements.txt**
+
+Убедитесь что у вас есть **`requirements.txt`**:
+
+```bash
+# Генерируем requirements.txt
+pip freeze > requirements.txt
+
+# Или создаем вручную
+echo "pandas>=1.5.0" > requirements.txt
+echo "openpyxl>=3.0.0" >> requirements.txt
+echo "xlrd>=2.0.0" >> requirements.txt
