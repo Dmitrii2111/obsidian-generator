@@ -1,37 +1,31 @@
 from excel_processor import load_excel_data
 from vault_builder import create_full_vault
-from config import VAULT_PATH
+from config import config, USE_JS, CREATE_DASHBOARD
+from logger import logger
 
 def main():
-    """Главный файл с выбором режима"""
-    print("🚀 Запуск генерации Obsidian vault")
-    print("=" * 50)
-    
+    """Главный файл с улучшенной обработкой"""
     try:
+        logger.info("🚀 Запуск генерации Obsidian vault")
+        logger.info("=" * 50)
+        
         # Загрузка данных
-        print("📊 Загружаем данные из Excel...")
+        logger.info("📊 Загружаем данные из Excel...")
         df = load_excel_data()
-        print(f"✅ Данные загружены: {df.shape[0]} строк")
-        
-        # Выбор режима
-        use_js_input = input("Использовать JavaScript? (y/n, по умолчанию y): ").lower().strip()
-        use_js = not use_js_input.startswith('n') if use_js_input else True
-        
-        mode = "JavaScript" if use_js else "Simple Dataview"
-        print(f"🔧 Режим: {mode}")
         
         # Генерация vault
-        print("🏗️ Создаем структуру vault...")
-        create_full_vault(df, use_js=use_js)
+        logger.info("🏗️ Создаем структуру vault...")
+        create_full_vault(df, use_js=USE_JS)
         
-        print("=" * 50)
-        print(f"🎉 Готово! Режим: {mode}")
-        print(f"📁 Результат в: {VAULT_PATH}")
+        logger.info("=" * 50)
+        logger.info("🎉 Генерация завершена успешно!")
         
     except Exception as e:
-        print(f"❌ Ошибка: {e}")
-        import traceback
-        traceback.print_exc()
+        logger.error(f"❌ Критическая ошибка: {e}")
+        logger.exception("Детали ошибки:")
+        return 1
+    
+    return 0
 
 if __name__ == "__main__":
-    main()
+    exit(main())

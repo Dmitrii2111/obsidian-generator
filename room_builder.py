@@ -3,6 +3,9 @@ from pathlib import Path
 from config import ENCODING
 from file_utils import sanitize_filename
 from content_generator import render_group_by_type
+from js_loader import JSLoader
+
+js_loader = JSLoader()
 
 def get_safe_name(value, default):
     """Безопасное получение имени"""
@@ -28,7 +31,7 @@ def get_room_name(row):
     else:
         return "—"
 
-def create_room_file(room_file, dept_name, group_data):
+def create_room_file(room_file, dept_name, group_data, use_js=True):
     """Создает файл помещения"""
     first_row = group_data.iloc[0]
     
@@ -39,6 +42,7 @@ def create_room_file(room_file, dept_name, group_data):
     content = render_group_by_type(group_data)
     
     md_content = f"""---
+type: room
 этаж: "{floor}"
 отдел: "{department}"
 помещение: "{room}"
@@ -49,6 +53,10 @@ status: ❌ Не приступали
 [[{dept_name}]]
 """
     
+    if use_js:
+        js_content = js_loader.get_room_js(use_js)
+        md_content += f"\n\n{js_content}"
+
     with open(room_file, "w", encoding=ENCODING) as f:
         f.write(md_content)
     

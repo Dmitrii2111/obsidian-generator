@@ -10,7 +10,11 @@ def create_dashboard(use_js=True):
     
     js_content = js_loader.get_dashboard_js(use_js)
     
-    content = f"""# 📊 Дашборд отделений
+    content = f"""
+type: dashboard
+status: ❌ Не приступали
+    
+    # 📊 Дашборд отделений
 
 {js_content}
 """

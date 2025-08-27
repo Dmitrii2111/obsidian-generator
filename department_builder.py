@@ -13,6 +13,7 @@ def create_department_readme(dept_folder, dept_name, floor_name, use_js):
     js_content = js_loader.get_department_js(dept_name, use_js)
     
     content = f"""---
+type: department
 этаж: "{floor_name}"
 отдел: "{dept_name}"
 status: ❌ Не приступали

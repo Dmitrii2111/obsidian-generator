@@ -1,0 +1,25 @@
+# config.yaml
+excel:
+  path: "testData.xlsx"
+  sheet_name: "testSheet"
+
+vault:
+  path: "output/test_vault"
+  encoding: "utf-8"
+
+generator:
+  use_js: true
+  create_dashboard: true
+  log_level: "INFO"
+
+columns:
+  floor: "ЭТАЖ"
+  department: "ОТДЕЛ"
+  room: "НОМ"
+  room_number: "ПОМ"
+  room_name: "ПОМ_НАИМ"
+  position: "ПОЗ"
+  item_name: "НАИМ"
+  supplier: "ПОСТ"
+  quantity: "КОЛ"
+  type: "ТИП"

@@ -2,13 +2,16 @@
 const metaedit = app.plugins.plugins["metaedit"]?.api;
 
 async function main() {
-  const dept = dv.current().file.name;
+  // Берём отдел из фронтматтера текущего файла
+  const dept = dv.current().file.frontmatter["отдел"] ?? dv.current().file.name;
 
-  const rooms = dv.pages()
-    .where(p => p.отдел == dept && p.помещение)
+    // Фильтруем только помещения этого отделения
+    const rooms = dv.pages()
+    .where(p => p.отдел === dept && p.помещение)
     .map(p => dv.page(p.file.path))
     .where(p => p && p.file)
     .sort(p => p.помещение ?? p.file.name, 'asc');
+
 
   async function calcRoomStatus(page) {
     if (!page?.file?.path) return "❌ Не приступали";
@@ -52,7 +55,10 @@ async function main() {
     overall = "❌ Не приступали";
   }
 
-  dv.table(["№", "Помещение", "Статус"], rows);
+  dv.table(
+  ["Помещение", "Статус"],
+  rooms.map(p => [p.file.link, p.status ?? "❌ Не указано"])
+);
 
   if (metaedit) {
       await metaedit.update("status", overall, dv.current().file?.path);
